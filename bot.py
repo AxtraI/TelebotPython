@@ -4,9 +4,12 @@ import requests
 from bs4 import BeautifulSoup
 from telebot import types
 
-TOKEN="7096609931:AAGQeafGTfhz8H1266pH0sKP2P3YimTz_8k"
+TOKEN='7096609931:AAGQeafGTfhz8H1266pH0sKP2P3YimTz_8k'
 bot=telebot.TeleBot(TOKEN)
 url = "http://sr.isu.ru/"
+YANDEX_MAPS_API_KEY = 'cff25af7-4b9b-4d9f-b60a-ab0a3c110d9c'
+ROUTE_URL = 'https://api.routing.yandex.net/v2/route'
+YANDEX_MAPS_URL = 'https://yandex.ru/maps/?ll={lon},{lat}&z=14'
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -88,6 +91,8 @@ def parse_events_from_url(url):
     else:
         print("Ошибка при получении страницы:", response.status_code)
 
+
+
 # Запуск бота
 if __name__ == '__main__':
-    bot.polling()
+    bot.polling(non_stop=True)
