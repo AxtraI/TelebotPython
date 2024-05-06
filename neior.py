@@ -12,28 +12,28 @@ ROUTE_URL = 'https://api.routing.yandex.net/v2/route'
 YANDEX_MAPS_URL = 'https://yandex.ru/maps/?ll={lon},{lat}&z=14'
 
 questions = [
-    {"text":"Что вас больше всего привлекает в работе с людьми?","image_url": "https://kartin.papik.pro/uploads/posts/2023-07/1688404965_kartin-papik-pro-p-kartinki-leta-v-visokom-kachestve-17.jpg"},
-    {"text":"Как вы относитесь к работе с большими объемами информации?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Представьте, что вам нужно организовать мероприятие. Какой аспект вас больше всего волнует?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Какие задачи вы предпочитаете: краткосрочные или долгосрочные проекты?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас привлекает идея создания и ведения рекламных кампаний?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Насколько важна для вас возможность путешествовать в рамках работы?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас увлекает технология и постоянное обучение новым инструментам и программам?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Как вы относитесь к решению конфликтных ситуаций?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам нравится анализировать данные и выявлять тренды?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что для вас важнее в работе: креативность или систематичность?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам интересно изучать различные культуры и языки?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что вы предпочитаете: работать в команде или самостоятельно?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Представьте, что вы организуете социальную кампанию. Что для вас будет в приоритете?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас влечет идея создавать новые программы или приложения?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Чем бы вы предпочли заниматься: разработкой стратегий обучения или разработкой IT-систем?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Как вы оцениваете свою способность адаптироваться к изменениям?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам нравится ли работать с текстами и медийными материалами?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что для вас важнее в работе: прямое взаимодействие с людьми или анализ их данных?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Какой тип задач вас больше привлекает: практические или теоретические?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что вы предпочтете: планировать карьеру сотрудников или планировать технологические процессы?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Насколько важно для вас иметь гибкий график работы?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Представьте, что вам нужно улучшить сервис компании. Какие первые шаги вы предпримете?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
+    {"text":"Что вас больше всего привлекает в работе с людьми?","image_url": "https://disk.yandex.ru/i/LRBjrcQFa07R6Q.jpg"},
+    {"text":"Как вы относитесь к работе с большими объемами информации?","image_url": "https://disk.yandex.ru/i/ph5lC_AglDfV4Q"},
+    {"text":"Представьте, что вам нужно организовать мероприятие. Какой аспект вас больше всего волнует?","image_url": "https://disk.yandex.ru/i/l9HI1_VUWFRHcg"},
+    {"text":"Какие задачи вы предпочитаете: краткосрочные или долгосрочные проекты?","image_url": "https://disk.yandex.ru/i/rGaiaPwqlITs8Q"},
+    {"text":"Вас привлекает идея создания и ведения рекламных кампаний?","image_url": "https://disk.yandex.ru/i/7YcGmmPHKU251A"},
+    {"text":"Насколько важна для вас возможность путешествовать в рамках работы?","image_url": "https://disk.yandex.ru/i/j37aWhlX2fr13w"},
+    {"text":"Вас увлекает технология и постоянное обучение новым инструментам и программам?","image_url": "https://disk.yandex.ru/i/N_LGO8Dtg0v93A"},
+    {"text":"Как вы относитесь к решению конфликтных ситуаций?","image_url": "https://disk.yandex.ru/i/7c2FBVOBp1jG5Q"},
+    {"text":"Вам нравится анализировать данные и выявлять тренды?","image_url": "https://disk.yandex.ru/i/NT5VAbC6xXiPAg"},
+    {"text":"Что для вас важнее в работе: креативность или систематичность?","image_url": "https://disk.yandex.ru/i/JWgCxBtiocg4cg"},
+    {"text":"Вам интересно изучать различные культуры и языки?","image_url": "https://disk.yandex.ru/i/bNct99O1MZxAAg"},
+    {"text":"Что вы предпочитаете: работать в команде или самостоятельно?","image_url": "https://disk.yandex.ru/i/IFpW0mfkuMfTTA"},
+    {"text":"Представьте, что вы организуете социальную кампанию. Что для вас будет в приоритете?","image_url": "https://disk.yandex.ru/i/IS3db-08JrqZjw"},
+    {"text":"Вас влечет идея создавать новые программы или приложения?","image_url": "https://disk.yandex.ru/i/95BGohu1gBNwuA"},
+    {"text":"Чем бы вы предпочли заниматься: разработкой стратегий обучения или разработкой IT-систем?","image_url": "https://disk.yandex.ru/i/G1p9fmQrGyHM5A"},
+    {"text":"Как вы оцениваете свою способность адаптироваться к изменениям?","image_url": "https://disk.yandex.ru/i/bfu78c8ojA1vxQ"},
+    {"text":"Вам нравится ли работать с текстами и медийными материалами?","image_url": "https://disk.yandex.ru/i/saeYiIJQ89L7vg"},
+    {"text":"Что для вас важнее в работе: прямое взаимодействие с людьми или анализ их данных?","image_url": "https://disk.yandex.ru/i/tRLEAN2SeaBFdQ"},
+    {"text":"Какой тип задач вас больше привлекает: практические или теоретические?","image_url": "https://disk.yandex.ru/i/9Dv11C-CQtAw8w"},
+    {"text":"Что вы предпочтете: планировать карьеру сотрудников или планировать технологические процессы?","image_url": "https://disk.yandex.ru/i/2iE75oWp7vyQtQ"},
+    {"text":"Насколько важно для вас иметь гибкий график работы?","image_url": "https://disk.yandex.ru/i/sKvHB_t7E6lJUQ"},
+    {"text":"Представьте, что вам нужно улучшить сервис компании. Какие первые шаги вы предпримете?","image_url": "https://disk.yandex.ru/i/uPteBtJGFX_fBA"},
     {"text":"Как вы относитесь к работе под давлением?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
     {"text":"Вас интересует возможность работать в международной среде?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
     {"text":"Что для вас важнее: стабильность или возможности для творчества?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
@@ -85,16 +85,12 @@ answers = [
 # Словарь для хранения результатов
 user_states = {}
 
-# Создайте inline клавиатуру для начала теста
-def get_start_keyboard():
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(types.InlineKeyboardButton(text="Начать тест", callback_data="start_test"))
-    return keyboard
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     greeting = "Привет! Этот бот поможет тебе с профориентацией. Выбери действие ниже."
     bot.send_message(message.chat.id, greeting, reply_markup=main_keyboard())
+
 
 @bot.message_handler(func=lambda message: message.text == 'Начать тест')
 def handle_start_test(message):
@@ -128,10 +124,6 @@ def start_test(call):
     ask_question(call.message)  # начать задавать вопросы
 
 
-def get_start_keyboard():
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(types.InlineKeyboardButton(text="Начать тест", callback_data="start_test"))
-    return keyboard
 
 @bot.callback_query_handler(func=lambda call: True)
 def handle_query(call):
@@ -285,35 +277,45 @@ def get_events(message):
 
 
 
-# Обработчик кнопки для получения мероприятий
-@bot.message_handler(func=lambda message: message.text == 'Получить мероприятия')
-def get_events(message):
-    events = parse_events_from_url(url)
-
-    if events:
-        for event in events:
-            response = f"Название мероприятия: {event['title']}\nДата мероприятия: {event['date']}"
-            bot.send_message(message.chat.id, response)
-
-# Остальной код бота остается без изменений
 # Настройки для улучшенной клавиатуры
 def main_keyboard():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = ['Получить мероприятия', 'Показать координаты на карте', 'FAQ', 'Начать тест', 'Веб-сайт', 'Контакты']
+    buttons = ['Получить мероприятия', 'Местоположение корпуса', 'FAQ', 'Начать тест', 'Веб-сайт', 'Контакты']
     keyboard.add(*buttons)
     return keyboard
 
+@bot.message_handler(
+    func=lambda message: message.text.lower().startswith("find") or message.text.lower().startswith("найти"))
+def find_employee(message):
+    query = message.text.strip()
+    print(f"Received message for search: '{query}'")
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    greeting = "Привет! Этот бот поможет тебе с профориентацией. Выбери действие ниже. Или отправь мне: Начать тест, чтобы пройти тестирование на то, какое направление тебе больше подходит"
-    bot.send_message(message.chat.id, greeting, reply_markup=main_keyboard())
+    if query and len(query.split()) > 1:  # Ensure there is something after 'find' or 'найти'
+        search_term = query.split(' ', 1)[1]
+        try:
+            con = psycopg2.connect(database='EmployeeDB', user='postgres', password='5055dom', host='localhost',
+                                   port='5432')
+            cursor = con.cursor()
+
+            likepattern = f"%{search_term}%"
+            cursor.execute("SELECT fio, job, email, phonenumber FROM employee WHERE job ILIKE %s", (likepattern,))
+            container = cursor.fetchall()
+
+            cursor.close()
+            con.close()
+
+            if container:
+                answer = "\n\n".join(
+                    [f'ФИО: {l[0]}\nДолжность: {l[1]}\nТелефон: {l[3]}\nПочта: {l[2]}' for l in container])
+                bot.send_message(message.chat.id, answer)
+            else:
+                bot.send_message(message.chat.id, "Сотрудников с данной должностью не найдено.")
+        except Exception as e:
+            bot.send_message(message.chat.id, f"Произошла ошибка при подключении к базе данных: {e}")
+    else:
+        bot.send_message(message.chat.id, "Пожалуйста, укажите должность для поиска после 'find' или 'найти'.")
 
 
-@bot.message_handler(func=lambda message: True)
-def handle_message(message):
-    if message.text == "Веб-сайт":
-        bot.send_message(message.chat.id, "Посетите наш веб-сайт: [ИГУ](https://fbki-isu.ru/)", parse_mode="Markdown")
 
 # Обработчик кнопки FAQ
 @bot.message_handler(func=lambda message: message.text == 'FAQ')
@@ -321,7 +323,7 @@ def faq(message):
     # Создаем клавиатуру для FAQ с кнопкой "Назад"
     faq_keyboard = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True)
     faq_keyboard.row('Перечень документов', 'Сроки подачи документов')
-    faq_keyboard.row('Сроки приема оригинала документа об образовании', 'Приказы на зачисление')
+    faq_keyboard.row('Сроки приема оригиналов', 'Приказы на зачисление')
     faq_keyboard.row('Вступительные испытания', 'Иногородним')
     faq_keyboard.row('Общежитие', 'Назад')
 
@@ -443,7 +445,7 @@ def dormitory(message):
     bot.send_message(message.chat.id, response, parse_mode='HTML')
 
 
-@bot.message_handler(func=lambda message: message.text == 'Показать координаты на карте')
+@bot.message_handler(func=lambda message: message.text == 'Местоположение корпуса')
 def show_coordinates(message):
     destination = "52.250204,104.263723"  # Новые заданные координаты
     lon = destination.split(',')[1]
@@ -458,11 +460,6 @@ def show_coordinates(message):
     )
 
 
-@bot.message_handler(func=lambda message: message.text == 'Начать тест')
-def handle_start_test(message):
-    print("Начать тест handler")
-    bot.send_message(message.chat.id, "Нажмите кнопку ниже, чтобы начать тест.", reply_markup=get_start_keyboard())
-
 @bot.message_handler(func=lambda message: message.text == 'Контакты')
 def show_contacts(message):
     print("Контакты handler")
@@ -474,32 +471,10 @@ def show_contacts(message):
     )
     bot.send_message(message.chat.id, contact_info)
 
-
-@bot.message_handler(content_types=['text'])
-def findEmployee(message):
-    if message.text == ">":
-        pass
-    else:
-        con = psycopg2.connect(database='EmployeeDB', user='postgres', password='5055dom', host='localhost',
-                               port='5432')
-        cursor = con.cursor()
-
-        message1 = message.text
-        print(message1)
-        likepattern = f"%{message1}%"
-
-        cursor.execute("SELECT fio, job, email, phonenumber FROM employee WHERE job ILIKE %s", (likepattern,))
-
-        container = cursor.fetchall()
-        cursor.close()
-        con.close()
-
-        answer = ""
-        for l in container:
-            answer += f'ФИО: {l[0]} \n Должность: {l[1]} \n Телефон:{l[3]} \n Почта:{l[2]}'
-            if len(answer) > 0:
-                bot.send_message(message.chat.id, text=answer)
-                answer = ""
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    if message.text == "Веб-сайт":
+        bot.send_message(message.chat.id, "Посетите наш веб-сайт: [ИГУ](https://fbki-isu.ru/)", parse_mode="Markdown")
 
 
 
