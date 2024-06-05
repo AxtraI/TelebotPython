@@ -34,14 +34,14 @@ questions = [
     {"text":"Что вы предпочтете: планировать карьеру сотрудников или планировать технологические процессы?","image_url": "https://disk.yandex.ru/i/2iE75oWp7vyQtQ"},
     {"text":"Насколько важно для вас иметь гибкий график работы?","image_url": "https://disk.yandex.ru/i/sKvHB_t7E6lJUQ"},
     {"text":"Представьте, что вам нужно улучшить сервис компании. Какие первые шаги вы предпримете?","image_url": "https://disk.yandex.ru/i/uPteBtJGFX_fBA"},
-    {"text":"Как вы относитесь к работе под давлением?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас интересует возможность работать в международной среде?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что для вас важнее: стабильность или возможности для творчества?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам нравится обучать и наставлять других?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вы предпочитаете писать код или анализировать данные?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Как вы относитесь к общению с прессой и участию в публичных мероприятиях?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам интересно работать над улучшением пользовательского опыта в приложениях и программах?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что вам кажется более важным: развитие личных навыков или вклад в развитие компании?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
+    {"text":"Как вы относитесь к работе под давлением?","image_url": "https://disk.yandex.ru/i/HAsLo_GdfaBVZA"},
+    {"text":"Вас интересует возможность работать в международной среде?","image_url": "https://disk.yandex.ru/i/3Vep1MvTU4rgMg"},
+    {"text":"Что для вас важнее: стабильность или возможности для творчества?","image_url": "https://disk.yandex.ru/i/10DyrP7sPVn71Q"},
+    {"text":"Вам нравится обучать и наставлять других?","image_url": "https://disk.yandex.ru/i/0sBAZhiqFLXp6A"},
+    {"text":"Вы предпочитаете писать код или анализировать данные?","image_url": "https://disk.yandex.ru/i/IWcvVeltHJ3ywQ"},
+    {"text":"Как вы относитесь к общению с прессой и участию в публичных мероприятиях?","image_url": "https://disk.yandex.ru/i/2bMYR-JlbmiFaw"},
+    {"text":"Вам интересно работать над улучшением пользовательского опыта в приложениях и программах?","image_url": "https://disk.yandex.ru/i/OtzyJNkpdm-sJA"},
+    {"text":"Что вам кажется более важным: развитие личных навыков или вклад в развитие компании?","image_url": "https://disk.yandex.ru/i/zIcer6aCmz6frQ"},
 
     # Добавьте все ваши вопросы здесь
 ]
