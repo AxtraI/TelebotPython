@@ -1,144 +1,162 @@
 import telebot
 import requests
 from bs4 import BeautifulSoup
-import psycopg2
+import sqlite3
+import json
 from telebot import types
 
 TOKEN = '7096609931:AAGQeafGTfhz8H1266pH0sKP2P3YimTz_8k'
 bot = telebot.TeleBot(TOKEN)
 url = "http://sr.isu.ru/"
-YANDEX_MAPS_API_KEY = 'cff25af7-4b9b-4d9f-b60a-ab0a3c110d9c'
-ROUTE_URL = 'https://api.routing.yandex.net/v2/route'
-YANDEX_MAPS_URL = 'https://yandex.ru/maps/?ll={lon},{lat}&z=14'
 
 questions = [
-    {"text":"Что вас больше всего привлекает в работе с людьми?","image_url": "https://kartin.papik.pro/uploads/posts/2023-07/1688404965_kartin-papik-pro-p-kartinki-leta-v-visokom-kachestve-17.jpg"},
-    {"text":"Как вы относитесь к работе с большими объемами информации?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Представьте, что вам нужно организовать мероприятие. Какой аспект вас больше всего волнует?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Какие задачи вы предпочитаете: краткосрочные или долгосрочные проекты?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас привлекает идея создания и ведения рекламных кампаний?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Насколько важна для вас возможность путешествовать в рамках работы?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас увлекает технология и постоянное обучение новым инструментам и программам?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Как вы относитесь к решению конфликтных ситуаций?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам нравится анализировать данные и выявлять тренды?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что для вас важнее в работе: креативность или систематичность?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам интересно изучать различные культуры и языки?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что вы предпочитаете: работать в команде или самостоятельно?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Представьте, что вы организуете социальную кампанию. Что для вас будет в приоритете?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас влечет идея создавать новые программы или приложения?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Чем бы вы предпочли заниматься: разработкой стратегий обучения или разработкой IT-систем?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Как вы оцениваете свою способность адаптироваться к изменениям?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам нравится ли работать с текстами и медийными материалами?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что для вас важнее в работе: прямое взаимодействие с людьми или анализ их данных?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Какой тип задач вас больше привлекает: практические или теоретические?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что вы предпочтете: планировать карьеру сотрудников или планировать технологические процессы?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Насколько важно для вас иметь гибкий график работы?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Представьте, что вам нужно улучшить сервис компании. Какие первые шаги вы предпримете?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Как вы относитесь к работе под давлением?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вас интересует возможность работать в международной среде?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что для вас важнее: стабильность или возможности для творчества?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам нравится обучать и наставлять других?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вы предпочитаете писать код или анализировать данные?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Как вы относитесь к общению с прессой и участию в публичных мероприятиях?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Вам интересно работать над улучшением пользовательского опыта в приложениях и программах?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-    {"text":"Что вам кажется более важным: развитие личных навыков или вклад в развитие компании?","image_url": "https://www.wallpapers13.com/wp-content/uploads/2016/02/Leopard_art_abstract_3d-wallpaper-hd-3840x2400.jpg"},
-
-    # Добавьте все ваши вопросы здесь
+    {"text": "Что вас больше всего привлекает в работе с людьми?",
+     "image_url": "https://disk.yandex.ru/i/LRBjrcQFa07R6Q.jpg"},
+    {"text": "Как вы относитесь к работе с большими объемами информации?",
+     "image_url": "https://disk.yandex.ru/i/ph5lC_AglDfV4Q"},
+    {"text": "Представьте, что вам нужно организовать мероприятие. Какой аспект вас больше всего волнует?",
+     "image_url": "https://disk.yandex.ru/i/l9HI1_VUWFRHcg"},
+    {"text": "Какие задачи вы предпочитаете: краткосрочные или долгосрочные проекты?",
+     "image_url": "https://disk.yandex.ru/i/rGaiaPwqlITs8Q"},
+    {"text": "Вас привлекает идея создания и ведения рекламных кампаний?",
+     "image_url": "https://disk.yandex.ru/i/7YcGmmPHKU251A"}
 ]
 
-# Варианты ответов
 answers = [
-    ["Возможность помогать им в карьерном росте", "Использование коммуникаций для влияния на мнение", "Создание комфортной атмосферы", "Организация мероприятий", "Построение IT-решений для улучшения их работы"],
-    ["Я предпочитаю анализировать информацию", "Использование информации для создания убедительных сообщений", "Организация данных для улучшения обслуживания клиентов", "Планирование маршрутов и логистики мероприятий", "Обработка и анализ данных для разработки программ"],
-    ["Найм и обучение персонала для мероприятия", "Пиар и продвижение мероприятия", "Обеспечение высококачественного сервиса на мероприятии", "Создание увлекательной и насыщенной программы", "Техническая поддержка и цифровая инфраструктура мероприятия"],
-    ["Долгосрочное планирование карьеры сотрудников", "Краткосрочные кампании и проекты", "Работа над текущими запросами клиентов", "Планирование сезонных туров", "Долгосрочная разработка и внедрение IT-проектов"],
-    ["Нет, я предпочитаю заниматься развитием персонала", "Да, это моя страсть", "Мне интереснее работать напрямую с клиентами", "Мне больше нравится организация мероприятий", "Я предпочитаю работать над техническими аспектами"],
-    ["Не очень важна, я предпочитаю стабильность", "Иногда это может быть интересно", "Редко бывает необходимо, но приятно", "Очень важна, я люблю новые места и культуры", "Не критично, больше важны технологии"],
-    ["Мне интересно, но только в контексте управления", "Я предпочитаю фокусироваться на медиа и коммуникациях", "Важно, но не основное", "Технологии могут быть полезны в организации поездок", " Это моя страсть"],
-    ["Это одна из моих ключевых задач", "Важно, чтобы улаживать вопросы с клиентами и партнерами", "Необходимо для обеспечения качественного сервиса", "Часть работы, особенно в сложных поездках", "Стараюсь избегать, предпочитаю работу с кодом"],
-    ["Да, это помогает в стратегическом планировании персонала", "Это полезно для понимания эффективности кампаний", "Интересно, но не основная часть работы", "Полезно для планирования популярных направлений", "Это основа моей работы"],
-    ["Систематичность в управлении персоналом", "Креативность в создании контента и кампаний", "Креативность в подходах к обслуживанию", "Креативность в создании туров", "Систематичность в разработке и тестировании"],
-    ["Интересно, но не приоритетно", "Важно для понимания глобальных трендов", "Могу использовать это для улучшения сервиса", "Это моя страсть и основа профессии", "Интересно, если это связано с международными проектами"],
-    ["В команде, ведь важно координировать действия персонала", "В команде, где каждый вносит свой вклад в общий проект", "В команде, чтобы предоставлять лучший сервис", "Самостоятельно, но с возможностью взаимодействия с другими", "Самостоятельно, большая часть работы требует концентрации"],
-    ["Обеспечение справедливых условий труда", "Достигнуть максимального охвата и вовлеченности аудитории", "Предоставление высококлассного сервиса участникам", "Привлечение внимания к местным культурным особенностям", "Использование новейших технологий для распространения информации"],
-    ["Нет, я предпочитаю работать с людьми напрямую", "Важно, если это помогает в коммуникациях", "Интересно, если это помогает улучшить сервис", "Использую программы, но не создаю", "Это основа моей работы"],
-    ["Разработкой стратегий обучения", "Ни то, ни другое, мне интереснее коммуникации", "Разработкой систем улучшения сервиса", "Ни то, ни другое, я предпочитаю работу в туризме", "Разработкой IT-систем"],
-    ["Хорошо адаптируюсь, чтобы помочь коллективу", "Легко адаптируюсь, особенно в изменяющихся трендах рынка", "Это важно для удовлетворения потребностей клиентов", "Адаптация к новым местам — часть работы", "Постоянно обучаюсь новым технологиям"],
-    ["Предпочитаю работать с людьми напрямую", "Да, это основа моей работы", "Полезно для создания рекламы сервисов", "Использую для промоции туристических маршрутов", "Редко, больше фокус на технической документации"],
-    ["Прямое взаимодействие, это суть моей работы", "Прямое взаимодействие для эффективных PR", "Взаимодействие с клиентами важно для качественного сервиса", "Прямое взаимодействие важно для организации путешествий", "Анализ данных, это ключ к эффективным решениям"],
-    ["Практические, связанные с управлением персоналом", "Теоретические, связанные с изучением трендов", "Практические, направленные на улучшение обслуживания", "Практические, организация туров и мероприятий", "Теоретические, связанные с разработкой и аналитикой"],
-    ["Карьеру сотрудников, это важно для их роста", "Ни то, ни другое, лучше создавать влиятельные кампании", "Технологические процессы в обслуживании", "Ни то, ни другое, лучше планировать путешествия", "Технологические процессы, это основа моей работы"],
-    ["Важно, чтобы согласовывать с потребностями персонала", "Очень важно для встреч и мероприятий", "Полезно для работы с клиентами", "Необходимо для поездок и экскурсий", "Менее важно, больше ценю стабильный график"],
-    ["Анализ потребностей и обратной связи сотрудников", "Исследование рынка и требований клиентов", "Переосмысление клиентского опыта и удовлетворенности", "Разработка новых туристических продуктов и услуг", "Внедрение новых технологий для автоматизации процессов"],
-    ["Способен управлять стрессом в команде", "Это часть работы, особенно в срочных проектах", "Важно сохранять спокойствие и обеспечивать качество", "Умею адаптироваться и находить решения в дороге", "Предпочитаю систематизированный подход к решению проблем"],
-    ["Да, это помогает понимать глобальные HR тренды", "Да, это расширяет возможности для кампаний", "Да, это улучшает понимание международных стандартов сервиса", "Обязательно, это суть работы в туризме", "Возможно, если это связано с международными IT проектами"],
-    ["Стабильность в управлении персоналом", "Творчество в создании уникальных PR и рекламных проектов", "Творчество в предоставлении инновационного сервиса", "Творчество в разработке новых турпакетов", "Стабильность в разработке и поддержке систем"],
-    ["Да, это основа работы с персоналом", "Интересно, если это связано с обучением коммуникациям", "Полезно для повышения уровня сервиса", "Важно для обучения гидов и сотрудников", "Люблю делиться знаниями по программированию"],
-    ["Ни то, ни другое, мне важнее работа с людьми", "Ни то, ни другое, я склонен к творческим задачам", "Ни то, ни другое, мне ближе взаимодействие с клиентами", "Ни то, ни другое, я предпочитаю планировать и организовывать", "Предпочитаю писать код"],
-    ["Не моя сфера, я фокусируюсь на внутреннем персонале", "Это часть моей работы, я это люблю", "Редко бывает необходимо, но я готов", "Иногда требуется для промоции туров", "Избегаю этого, предпочитаю работу за компьютером"],
-    ["Нет, мне ближе работа с реальными людьми", "Нет, я фокусируюсь на визуальном и текстовом контенте", "Да, это важно для улучшения клиентского сервиса", "Интересно, если это помогает в туризме", "Да, это ключевая часть моей работы"],
-    ["Развитие личных навыков, чтобы лучше управлять персоналом", "Вклад в развитие компании через эффективные PR стратегии", "Развитие личных навыков для предоставления лучшего сервиса", "Вклад в развитие компании через инновационные туры", "Равновесие между личным развитием и вкладом в технологии компании"],
-
-    # Должно быть столько же списков, сколько вопросов
+    ["Возможность помогать им в карьерном росте", "Использование коммуникаций для влияния на мнение",
+     "Создание комфортной атмосферы", "Организация мероприятий", "Построение IT-решений для улучшения их работы"],
+    ["Я предпочитаю анализировать информацию", "Использование информации для создания убедительных сообщений",
+     "Организация данных для улучшения обслуживания клиентов", "Планирование маршрутов и логистики мероприятий",
+     "Обработка и анализ данных для разработки программ"],
+    ["Найм и обучение персонала для мероприятия", "Пиар и продвижение мероприятия",
+     "Обеспечение высококачественного сервиса на мероприятии", "Создание увлекательной и насыщенной программы",
+     "Техническая поддержка и цифровая инфраструктура мероприятия"],
+    ["Долгосрочное планирование карьеры сотрудников", "Краткосрочные кампании и проекты",
+     "Работа над текущими запросами клиентов", "Планирование сезонных туров",
+     "Долгосрочная разработка и внедрение IT-проектов"],
+    ["Нет, я предпочитаю заниматься развитием персонала", "Да, это моя страсть",
+     "Мне интереснее работать напрямую с клиентами", "Мне больше нравится организация мероприятий",
+     "Я предпочитаю работать над техническими аспектами"]
 ]
 
-# Словарь для хранения результатов
+
+# Database initialization
+def init_db():
+    conn = sqlite3.connect('tests.db')
+    cursor = conn.cursor()
+    cursor.execute(
+        '''CREATE TABLE IF NOT EXISTS tests (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, questions TEXT)''')
+    conn.commit()
+    conn.close()
+
+
+# Save a new test to the database
+def save_test(name, questions):
+    conn = sqlite3.connect('tests.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO tests (name, questions) VALUES (?, ?)', (name, json.dumps(questions)))
+    conn.commit()
+    conn.close()
+
+
+# Fetch all test names from the database
+def get_all_tests():
+    conn = sqlite3.connect('tests.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, name FROM tests')
+    tests = cursor.fetchall()
+    conn.close()
+    return tests
+
+
+# Fetch test questions by id
+def get_test_questions(test_id):
+    conn = sqlite3.connect('tests.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT questions FROM tests WHERE id = ?', (test_id,))
+    questions = cursor.fetchone()
+    conn.close()
+    return json.loads(questions[0]) if questions else []
+
+
 user_states = {}
 
-# Создайте inline клавиатуру для начала теста
-def get_start_keyboard():
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(types.InlineKeyboardButton(text="Начать тест", callback_data="start_test"))
-    return keyboard
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     greeting = "Привет! Этот бот поможет тебе с профориентацией. Выбери действие ниже."
     bot.send_message(message.chat.id, greeting, reply_markup=main_keyboard())
 
-@bot.message_handler(func=lambda message: message.text == 'Начать тест')
+
+@bot.message_handler(func=lambda message: message.text == 'Тестирование')
 def handle_start_test(message):
-    bot.send_message(message.chat.id, "Нажмите кнопку ниже, чтобы начать тест.", reply_markup=get_start_keyboard())
+    bot.send_message(message.chat.id, "Выберите тест для начала.", reply_markup=get_test_selection_keyboard())
+
+
+def get_test_selection_keyboard():
+    keyboard = types.InlineKeyboardMarkup()
+    tests = get_all_tests()
+    for test_id, test_name in tests:
+        keyboard.add(types.InlineKeyboardButton(text=test_name, callback_data=f'start_test:{test_id}'))
+    keyboard.add(types.InlineKeyboardButton(text="Добавить новый тест", callback_data="add_new_test"))
+    return keyboard
+
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith("start_test:"))
+def start_test(call):
+    test_id = int(call.data.split(':')[1])
+    chat_id = call.message.chat.id
+    questions = get_test_questions(test_id)
+
+    if questions:
+        ensure_user_state(chat_id)
+        user_states[chat_id]["question_index"] = 0
+        user_states[chat_id]["results"] = {"Управление персоналом": 0, "Реклама и связи с общественностью": 0,
+                                           "Сервис": 0, "Туризм": 0, "Прикладная информатика": 0}
+        user_states[chat_id]["questions"] = questions
+        ask_question(call.message)
+    else:
+        bot.send_message(chat_id, "Ошибка при загрузке теста. Попробуйте снова.")
+
+
+@bot.callback_query_handler(func=lambda call: call.data == "add_new_test")
+def add_new_test(call):
+    bot.send_message(call.message.chat.id, "Отправьте JSON файл с тестом.")
+
+
+@bot.message_handler(content_types=['document'])
+def handle_document(message):
+    if message.document.mime_type == 'application/json':
+        file_info = bot.get_file(message.document.file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+
+        try:
+            test_data = json.loads(downloaded_file.decode('utf-8'))
+            test_name = test_data.get("name", "Unnamed Test")
+            questions = test_data.get("questions", [])
+
+            if questions:
+                save_test(test_name, questions)
+                bot.send_message(message.chat.id, f"Тест '{test_name}' успешно добавлен.")
+            else:
+                bot.send_message(message.chat.id, "Неверный формат файла. Вопросы не найдены.")
+        except json.JSONDecodeError:
+            bot.send_message(message.chat.id, "Неверный формат файла. Загрузите правильный JSON файл.")
+    else:
+        bot.send_message(message.chat.id, "Пожалуйста, загрузите файл в формате JSON.")
+
+
 def ensure_user_state(chat_id):
     if chat_id not in user_states:
         user_states[chat_id] = {
             "question_index": 0,
-            "results": {
-                "Управление персоналом": 0,
-                "Реклама и связи с общественностью": 0,
-                "Сервис": 0,
-                "Туризм": 0,
-                "Прикладная информатика": 0
-            },
+            "results": {"Управление персоналом": 0, "Реклама и связи с общественностью": 0, "Сервис": 0, "Туризм": 0,
+                        "Прикладная информатика": 0},
             "last_message_id": None,
-            "last_photo_id": None
+            "last_photo_id": None,
+            "questions": []
         }
-@bot.callback_query_handler(func=lambda call: call.data == "start_test")
-def start_test(call):
-    chat_id = call.message.chat.id
-    ensure_user_state(chat_id)
-    user_states[chat_id]["question_index"] = 0  # сбросить индекс вопроса на начало
-    user_states[chat_id]["results"] = {  # сбросить результаты
-        "Управление персоналом": 0,
-        "Реклама и связи с общественностью": 0,
-        "Сервис": 0,
-        "Туризм": 0,
-        "Прикладная информатика": 0
-    }
-    ask_question(call.message)  # начать задавать вопросы
 
-
-def get_start_keyboard():
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(types.InlineKeyboardButton(text="Начать тест", callback_data="start_test"))
-    return keyboard
-
-@bot.callback_query_handler(func=lambda call: True)
-def handle_query(call):
-    if call.data == "start_test":
-        start_test(call.message)
-    elif call.data.startswith("answer:"):
-        process_answer(call)
 
 def get_inline_keyboard(answers, question_index):
     keyboard = types.InlineKeyboardMarkup()
@@ -148,84 +166,72 @@ def get_inline_keyboard(answers, question_index):
     return keyboard
 
 
-def get_start_keyboard():
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(types.InlineKeyboardButton(text="Начать тест", callback_data="start_test"))
-    return keyboard
-
-
 def ask_question(message):
     chat_id = message.chat.id
     question_index = user_states[chat_id]["question_index"]
+    questions = user_states[chat_id]["questions"]
+
     if question_index < len(questions):
-        question_text = questions[question_index]['text']
-        image_url = questions[question_index]['image_url']
+        question = questions[question_index]
+        question_text = question['text']
+        image_url = question.get('image_url', None)
         ans_options = answers[question_index]
         keyboard = get_inline_keyboard(ans_options, question_index)
 
-        # Пытаемся обновить существующее изображение, если оно уже было отправлено
-        if 'last_photo_id' in user_states[chat_id]:
-            try:
-                bot.edit_message_media(media=types.InputMediaPhoto(image_url),
-                                       chat_id=chat_id,
-                                       message_id=user_states[chat_id]['last_photo_id'])
-            except Exception as e:
-                # Обрабатываем только ошибки, связанные с отсутствием сообщения
-                if "message to edit not found" in str(e):
-                    photo_message = bot.send_photo(chat_id, image_url)
-                    user_states[chat_id]['last_photo_id'] = photo_message.message_id
-                else:
-                    print(f"Failed to edit photo message: {e}")
-        else:
-            # Отправляем новое изображение, если ранее не отправляли
-            photo_message = bot.send_photo(chat_id, image_url)
-            user_states[chat_id]['last_photo_id'] = photo_message.message_id
+        if image_url:
+            if 'last_photo_id' in user_states[chat_id]:
+                try:
+                    bot.edit_message_media(media=types.InputMediaPhoto(image_url), chat_id=chat_id,
+                                           message_id=user_states[chat_id]['last_photo_id'])
+                except Exception as e:
+                    if "message to edit not found" in str(e):
+                        photo_message = bot.send_photo(chat_id, image_url)
+                        user_states[chat_id]['last_photo_id'] = photo_message.message_id
+                    else:
+                        print(f"Failed to edit photo message: {e}")
+            else:
+                photo_message = bot.send_photo(chat_id, image_url)
+                user_states[chat_id]['last_photo_id'] = photo_message.message_id
 
-        # Пытаемся обновить текст вопроса
         if 'last_message_id' in user_states[chat_id]:
             try:
-                bot.edit_message_text(text=question_text,
-                                      chat_id=chat_id,
-                                      message_id=user_states[chat_id]['last_message_id'],
-                                      reply_markup=keyboard)
+                bot.edit_message_text(text=question_text, chat_id=chat_id,
+                                      message_id=user_states[chat_id]['last_message_id'], reply_markup=keyboard)
             except Exception as e:
-                # Если обновление не удалось, проверяем причину и действуем соответственно
                 if "message to edit not found" in str(e):
                     msg = bot.send_message(chat_id, text=question_text, reply_markup=keyboard)
                     user_states[chat_id]['last_message_id'] = msg.message_id
                 else:
                     print(f"Failed to edit question message: {e}")
         else:
-            # Отправляем сообщение, если ранее не отправляли
             msg = bot.send_message(chat_id, text=question_text, reply_markup=keyboard)
             user_states[chat_id]['last_message_id'] = msg.message_id
+    else:
+        calculate_results(message)
 
 
-
+@bot.callback_query_handler(func=lambda call: call.data.startswith("answer:"))
 def process_answer(call):
     chat_id = call.message.chat.id
     data_parts = call.data.split(':')
     question_index = int(data_parts[1])
     answer_index = int(data_parts[2])
-    direction_keys = ["Управление персоналом", "Реклама и связи с общественностью", "Сервис", "Туризм", "Прикладная информатика"]
+    direction_keys = ["Управление персоналом", "Реклама и связи с общественностью", "Сервис", "Туризм",
+                      "Прикладная информатика"]
     direction = direction_keys[answer_index]
 
     ensure_user_state(chat_id)
     user_states[chat_id]["results"][direction] += 1
     user_states[chat_id]["question_index"] += 1
 
-    if user_states[chat_id]["question_index"] < len(questions):
-        ask_question(call.message)
-    else:
-        calculate_results(call.message)
-        user_states.pop(chat_id, None)  # Очищаем состояние после завершения теста
+    ask_question(call.message)
 
 
 def calculate_results(message):
     chat_id = message.chat.id
     if chat_id in user_states:
         results = user_states[chat_id]["results"]
-        max_score = max(results.values())  # Находим максимальное количество баллов
+        max_score = max(results.values())
         top_directions = [direction for direction, score in results.items() if score == max_score]
 
         if len(top_directions) > 1:
@@ -234,16 +240,12 @@ def calculate_results(message):
             response_text = f"Наиболее подходящее направление для вас: {top_directions[0]}"
 
         bot.send_message(chat_id, response_text)
-        del user_states[chat_id]  # Сброс состояния пользователя
+        del user_states[chat_id]
     else:
-        # Если состояние для данного chat_id не существует, отправляем уведомление
         bot.send_message(chat_id, "Произошла ошибка. Пожалуйста, начните тест заново.")
 
 
-
-user_states = {}  # Инициализация состояния пользователей
-
-# Функция для парсинга мероприятий
+# Function for parsing events from the URL
 def parse_events_from_url(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -263,75 +265,46 @@ def parse_events_from_url(url):
             return events_data if events_data else "На данный момент не запланировано никаких мероприятий."
         else:
             return "Количество заголовков и дат событий не совпадает."
-
     else:
         return f"Ошибка при получении страницы: {response.status_code}"
 
-@bot.message_handler(func=lambda message: message.text == 'Получить мероприятия')
+
+@bot.message_handler(func=lambda message: message.text == 'Мероприятия')
 def get_events(message):
     events = parse_events_from_url(url)
 
     if isinstance(events, str):
-        # Если возвращается строка, отправляем её как сообщение
         bot.send_message(message.chat.id, events)
     elif events:
-        # Если возвращается список событий, формируем ответ
         for event in events:
             response = f"Название мероприятия: {event['title']}\nДата мероприятия: {event['date']}"
             bot.send_message(message.chat.id, response)
     else:
-        # Предусмотренный фоллбек на случай неожиданных результатов
         bot.send_message(message.chat.id, "Произошла ошибка при загрузке мероприятий.")
 
 
-
-# Обработчик кнопки для получения мероприятий
-@bot.message_handler(func=lambda message: message.text == 'Получить мероприятия')
-def get_events(message):
-    events = parse_events_from_url(url)
-
-    if events:
-        for event in events:
-            response = f"Название мероприятия: {event['title']}\nДата мероприятия: {event['date']}"
-            bot.send_message(message.chat.id, response)
-
-# Остальной код бота остается без изменений
-# Настройки для улучшенной клавиатуры
+# Main keyboard
 def main_keyboard():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = ['Получить мероприятия', 'Показать координаты на карте', 'FAQ', 'Начать тест', 'Веб-сайт', 'Контакты']
+    buttons = ['Мероприятия', 'Корпус', 'Вопрос-Ответ', 'Тестирование', 'Веб-сайт', 'Контакты']
     keyboard.add(*buttons)
     return keyboard
 
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    greeting = "Привет! Этот бот поможет тебе с профориентацией. Выбери действие ниже. Или отправь мне: Начать тест, чтобы пройти тестирование на то, какое направление тебе больше подходит"
-    bot.send_message(message.chat.id, greeting, reply_markup=main_keyboard())
-
-
-@bot.message_handler(func=lambda message: True)
-def handle_message(message):
-    if message.text == "Веб-сайт":
-        bot.send_message(message.chat.id, "Посетите наш веб-сайт: [ИГУ](https://fbki-isu.ru/)", parse_mode="Markdown")
-
-# Обработчик кнопки FAQ
-@bot.message_handler(func=lambda message: message.text == 'FAQ')
+@bot.message_handler(func=lambda message: message.text == 'Вопрос-Ответ')
 def faq(message):
-    # Создаем клавиатуру для FAQ с кнопкой "Назад"
-    faq_keyboard = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True)
+    faq_keyboard = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     faq_keyboard.row('Перечень документов', 'Сроки подачи документов')
-    faq_keyboard.row('Сроки приема оригинала документа об образовании', 'Приказы на зачисление')
+    faq_keyboard.row('Сроки приема оригиналов', 'Приказы на зачисление')
     faq_keyboard.row('Вступительные испытания', 'Иногородним')
     faq_keyboard.row('Общежитие', 'Назад')
-
-    # Отправляем сообщение с клавиатурой FAQ
     bot.send_message(message.chat.id, "Выберите интересующий вас раздел FAQ:", reply_markup=faq_keyboard)
 
-# Обработчик кнопки "Назад" в разделе FAQ
+
 @bot.message_handler(func=lambda message: message.text == 'Назад')
 def back_to_start(message):
     bot.send_message(message.chat.id, "Возвращаемся в главное меню.", reply_markup=main_keyboard())
+
 
 @bot.message_handler(func=lambda message: message.text == 'Перечень документов')
 def document_list(message):
@@ -341,11 +314,12 @@ def document_list(message):
         "Страховой номер индивидуального лицевого счета (СНИЛС)",
         "Согласие на зачисление",
         "Согласие законного представителя субъекта персональных данных на передачу персональных данных (субъекта) в электронном виде по открытым каналам сети Интернет",
-        "Согласие поступающего на передачу персональных данных в электронном виде по открытым каналам сети Интерне"
+        "Согласие поступающего на передачу персональных данных в электронном виде по открытым каналам сети Интернет"
     ]
 
     formatted_documents = "\n".join([f"{i + 1}. {doc}" for i, doc in enumerate(documents)])
     bot.send_message(message.chat.id, f"Перечень документов:\n{formatted_documents}")
+
 
 @bot.message_handler(func=lambda message: message.text == 'Сроки подачи документов')
 def document_deadlines(message):
@@ -360,11 +334,11 @@ def document_deadlines(message):
         "- на бюджетные места, очное, очно-заочное – <b>по 16 августа</b>;\n"
         "- на платные места, очное, очно-заочное – <b>по 28 августа</b>;\n"
         "- на бюджетные места, заочное – <b>по 23 августа</b>;\n"
-        "- на платные места, заочное, - <b>не позднее, чем за 3 дня до начала учебного года</b> "
-        "(Срок завершения приема документов устанавливается в соответствии с календарным учебным графиком)."
+        "- на платные места, заочное, - <b>не позднее, чем за 3 дня до начала учебного года</b> (Срок завершения приема документов устанавливается в соответствии с календарным учебным графиком)."
     )
 
     bot.send_message(message.chat.id, response, parse_mode='HTML')
+
 
 @bot.message_handler(func=lambda message: message.text == 'Сроки приема оригинала документа об образовании')
 def original_document_deadlines(message):
@@ -376,6 +350,7 @@ def original_document_deadlines(message):
     )
 
     bot.send_message(message.chat.id, response, parse_mode='HTML')
+
 
 @bot.message_handler(func=lambda message: message.text == 'Приказы на зачисление')
 def admission_orders(message):
@@ -393,6 +368,7 @@ def admission_orders(message):
     )
 
     bot.send_message(message.chat.id, response, parse_mode='HTML')
+
 
 @bot.message_handler(func=lambda message: message.text == 'Вступительные испытания')
 def entrance_exams(message):
@@ -415,6 +391,7 @@ def entrance_exams(message):
 
     bot.send_message(message.chat.id, response, parse_mode='HTML')
 
+
 @bot.message_handler(func=lambda message: message.text == 'Иногородним')
 def out_of_town(message):
     response = (
@@ -424,6 +401,7 @@ def out_of_town(message):
     )
 
     bot.send_message(message.chat.id, response, parse_mode='HTML')
+
 
 @bot.message_handler(func=lambda message: message.text == 'Общежитие')
 def dormitory(message):
@@ -443,29 +421,18 @@ def dormitory(message):
     bot.send_message(message.chat.id, response, parse_mode='HTML')
 
 
-@bot.message_handler(func=lambda message: message.text == 'Показать координаты на карте')
+@bot.message_handler(func=lambda message: message.text == 'Корпус')
 def show_coordinates(message):
-    destination = "52.250204,104.263723"  # Новые заданные координаты
+    destination = "52.250204,104.263723"
     lon = destination.split(',')[1]
     lat = destination.split(',')[0]
-
-    # Создаем ссылку на Яндекс.Карты с заданными координатами
     yandex_maps_link = f"https://yandex.ru/maps/?pt={lon},{lat}&z=14"
 
-    bot.send_message(
-        message.chat.id,
-        f"Координаты {destination} на карте: {yandex_maps_link}"
-    )
+    bot.send_message(message.chat.id, f"Координаты {destination} на карте: {yandex_maps_link}")
 
-
-@bot.message_handler(func=lambda message: message.text == 'Начать тест')
-def handle_start_test(message):
-    print("Начать тест handler")
-    bot.send_message(message.chat.id, "Нажмите кнопку ниже, чтобы начать тест.", reply_markup=get_start_keyboard())
 
 @bot.message_handler(func=lambda message: message.text == 'Контакты')
 def show_contacts(message):
-    print("Контакты handler")
     contact_info = (
         "г. Иркутск, ул. Лермонтова, 126\n"
         "(6 корпус ИГУ)\n\n"
@@ -475,33 +442,12 @@ def show_contacts(message):
     bot.send_message(message.chat.id, contact_info)
 
 
-@bot.message_handler(content_types=['text'])
-def findEmployee(message):
-    if message.text == ">":
-        pass
-    else:
-        con = psycopg2.connect(database='EmployeeDB', user='postgres', password='5055dom', host='localhost',
-                               port='5432')
-        cursor = con.cursor()
-
-        message1 = message.text
-        print(message1)
-        likepattern = f"%{message1}%"
-
-        cursor.execute("SELECT fio, job, email, phonenumber FROM employee WHERE job ILIKE %s", (likepattern,))
-
-        container = cursor.fetchall()
-        cursor.close()
-        con.close()
-
-        answer = ""
-        for l in container:
-            answer += f'ФИО: {l[0]} \n Должность: {l[1]} \n Телефон:{l[3]} \n Почта:{l[2]}'
-            if len(answer) > 0:
-                bot.send_message(message.chat.id, text=answer)
-                answer = ""
-
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    if message.text == "Веб-сайт":
+        bot.send_message(message.chat.id, "Посетите наш веб-сайт: [ИГУ](https://fbki-isu.ru/)", parse_mode="Markdown")
 
 
 if __name__ == '__main__':
+    init_db()
     bot.polling(non_stop=True)

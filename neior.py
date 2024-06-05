@@ -48,7 +48,7 @@ questions = [
 
 # Варианты ответов
 answers = [
-    ["Возможность помогать им в карьерном росте", "Использование коммуникаций для влияния на мнение", "Создание комфортной атмосферы", "Организация мероприятий", "Построение IT-решений для улучшения их работы"],
+    ["Возможность помогать им в карьерном росте", "Использование коммуникаций для влияния на мнение", "Создание комфортной атмосферы", "Организация мероприятий", "Создание IT-решений для улучшения работы"],
     ["Я предпочитаю анализировать информацию", "Использование информации для создания убедительных сообщений", "Организация данных для улучшения обслуживания клиентов", "Планирование маршрутов и логистики мероприятий", "Обработка и анализ данных для разработки программ"],
     ["Найм и обучение персонала для мероприятия", "Пиар и продвижение мероприятия", "Обеспечение высококачественного сервиса на мероприятии", "Создание увлекательной и насыщенной программы", "Техническая поддержка и цифровая инфраструктура мероприятия"],
     ["Долгосрочное планирование карьеры сотрудников", "Краткосрочные кампании и проекты", "Работа над текущими запросами клиентов", "Планирование сезонных туров", "Долгосрочная разработка и внедрение IT-проектов"],
@@ -92,9 +92,9 @@ def send_welcome(message):
     bot.send_message(message.chat.id, greeting, reply_markup=main_keyboard())
 
 
-@bot.message_handler(func=lambda message: message.text == 'Начать тест')
+@bot.message_handler(func=lambda message: message.text == 'Тестирование')
 def handle_start_test(message):
-    bot.send_message(message.chat.id, "Нажмите кнопку ниже, чтобы начать тест.", reply_markup=get_start_keyboard())
+    bot.send_message(message.chat.id, "Нажмите кнопку ниже, чтобы начать тест. Если вы проходите тест с телефона, переверните телефон в горизонтальное положение для корректного отображения вопросов", reply_markup=get_start_keyboard())
 def ensure_user_state(chat_id):
     if chat_id not in user_states:
         user_states[chat_id] = {
@@ -259,7 +259,7 @@ def parse_events_from_url(url):
     else:
         return f"Ошибка при получении страницы: {response.status_code}"
 
-@bot.message_handler(func=lambda message: message.text == 'Получить мероприятия')
+@bot.message_handler(func=lambda message: message.text == 'Мероприятия')
 def get_events(message):
     events = parse_events_from_url(url)
 
@@ -280,7 +280,7 @@ def get_events(message):
 # Настройки для улучшенной клавиатуры
 def main_keyboard():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = ['Получить мероприятия', 'Местоположение корпуса', 'FAQ', 'Начать тест', 'Веб-сайт', 'Контакты']
+    buttons = ['Мероприятия', 'Корпус', 'Вопрос-Ответ', 'Тестирование', 'Веб-сайт', 'Контакты']
     keyboard.add(*buttons)
     return keyboard
 
@@ -318,7 +318,7 @@ def find_employee(message):
 
 
 # Обработчик кнопки FAQ
-@bot.message_handler(func=lambda message: message.text == 'FAQ')
+@bot.message_handler(func=lambda message: message.text == 'Вопрос-Ответ')
 def faq(message):
     # Создаем клавиатуру для FAQ с кнопкой "Назад"
     faq_keyboard = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -445,7 +445,7 @@ def dormitory(message):
     bot.send_message(message.chat.id, response, parse_mode='HTML')
 
 
-@bot.message_handler(func=lambda message: message.text == 'Местоположение корпуса')
+@bot.message_handler(func=lambda message: message.text == 'Корпус')
 def show_coordinates(message):
     destination = "52.250204,104.263723"  # Новые заданные координаты
     lon = destination.split(',')[1]
